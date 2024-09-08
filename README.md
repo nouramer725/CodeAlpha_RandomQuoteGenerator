@@ -1,4 +1,4 @@
-# quotessss
+# Random Quote Generator
 
 A new Flutter project.
 
