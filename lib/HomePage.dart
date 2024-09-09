@@ -4,7 +4,6 @@ import 'package:quotessss/quote_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'api.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -37,160 +36,157 @@ class _HomePageState extends State<HomePage> {
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: 25,
+                horizontal: 25,
               ),
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(20.0),
-                    decoration: BoxDecoration(
-                      color: HexColor("#1f0e18"),
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 40,
-                          offset: Offset(10,15),
-                          spreadRadius: BorderSide.strokeAlignCenter
-                        ),
-                      ],
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20.0),
+                decoration: BoxDecoration(
+                  color: HexColor("#1f0e18"),
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: const [
+                    BoxShadow(
+                      blurRadius: 40,
+                      offset: Offset(10, 15),
+                      spreadRadius: BorderSide.strokeAlignCenter,
                     ),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  ],
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.format_quote,
+                        size: 35,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        " ${quote?.tags ?? ""} ",
+                        style: const TextStyle(
+                          fontSize: 20.6,
+                          color: Colors.white60,
+                          fontFamily: 'serif',
+                        ),
+                      ),
+                      const Text("_________________"),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          " ${quote?.content ?? ".."}",
+                          style: const TextStyle(
+                            fontSize: 23,
+                            fontFamily: 'roboto',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white60,
+                          ),
+                          textAlign: TextAlign.justify,
+                        ),
+                      ),
+                      const Text("___________________________________"),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Stack(
+                        alignment: AlignmentDirectional.bottomEnd,
                         children: [
-                          Icon(
-                            Icons.format_quote ,
-                            size: 35,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
                           Text(
-                            " ${quote?.tags ?? ""} ",
+                            "Author : ${quote?.author ?? ""} ",
                             style: const TextStyle(
-                              fontSize: 20.6,
+                              fontSize: 17,
                               color: Colors.white60,
                               fontFamily: 'serif',
                             ),
                           ),
-                          Text("_________________"),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              " ${quote?.content ?? ".."}",
-                              style: const TextStyle(
-                                fontSize: 23,
-                                fontFamily: 'roboto',
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white60,
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 3,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isFavorited = !isFavorited; // Toggle the state
+                              });
+                            },
+                            icon: CircleAvatar(
+                              backgroundColor:
+                              isFavorited ? Colors.red : HexColor("#1f0e18"), // Conditional color
+                              radius: 20.0,
+                              child: Icon(
+                                isFavorited ? Icons.favorite : Icons.favorite, // Conditional icon
+                                size: 28.0,
+                                color: Colors.white,
                               ),
-                              textAlign: TextAlign.justify,
+                            ),
+                          )
+                        ],
+                      ),
+                      const Icon(
+                        Icons.format_quote,
+                        size: 35,
+                      ),
+                      inProgress
+                          ? const CircularProgressIndicator(
+                        color: Colors.white,
+                      )
+                          : Row(
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              setState(() {
+                                isFavorited = false;
+                              });
+                              _fetchQuote();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white60,
+                            ),
+                            icon: const Icon(
+                              Icons.refresh,
+                              color: Colors.black87,
+                            ),
+                            label: const Text(
+                              "Generate",
+                              style: TextStyle(color: Colors.black87),
                             ),
                           ),
-                          Text("___________________________________"),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Stack(
-                              alignment: AlignmentDirectional.bottomEnd,
-                            children: [
-                              Text(
-                                "Author : ${quote?.author ?? ""} ",
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  color: Colors.white60,
-                                  fontFamily: 'serif',
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 3,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    isFavorited = !isFavorited; // Toggle the state
-                                  });
-                                },
-                                icon: CircleAvatar(
-                                  backgroundColor: isFavorited ? Colors.pinkAccent : HexColor("#1f0e18"), // Conditional color
-                                  radius: 15.0,
-                                  child: Icon(
-                                    isFavorited ? Icons.favorite : Icons.favorite, // Conditional icon
-                                    size: 20.0,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          Icon(
-                            Icons.format_quote ,
-                            size: 35,
-                          ),
-                          inProgress ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          ):Row(
-                            children: [
-                              ElevatedButton.icon(
-                                onPressed: () {
-                                  setState(() {
-                                    isFavorited=false;
-                                  });
-                                  _fetchQuote();
-                                  },
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white60,
-                                ),
-                                icon: Icon(Icons.refresh , color: Colors.black87,),
-                                label: const Text(
-                                  "Generate",
-                                  style: TextStyle(color: Colors.black87),
-                                ),
-                              ),
-                              Spacer(),
-                              ElevatedButton.icon(
-                                onPressed: () {
-                                  if (quote != null) {
-                                    Share.share(
-                                      '"${quote?.content}" - ${quote?.author}',
-                                      subject: 'Inspiring Quote',
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('No quote to share!'),
-                                      ),
-                                    );
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white60,
-                                ),
-                                icon: Icon(Icons.share, color: Colors.black87,),
-                                label: const Text(
-                                  "Share",
-                                  style: TextStyle(color: Colors.black87),
-                                ),
-                              ),
-                            ],
+                          const Spacer(),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              _shareQuote();
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white60),
+                            icon: const Icon(
+                              Icons.share,
+                              color: Colors.black87,
+                            ),
+                            label: const Text(
+                              "Share",
+                              style: TextStyle(color: Colors.black87),
+                            ),
                           ),
                         ],
                       ),
-                    ),
+                    ],
                   ),
                 ),
+              ),
+            ),
           ),
         ),
       ),
-        );
+    );
   }
 
   _fetchQuote() async {
@@ -209,6 +205,14 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         inProgress = false;
       });
+    }
+  }
+
+  // Function to share the quote
+  void _shareQuote() {
+    if (quote != null) {
+      final quoteText = '"${quote?.content}" - ${quote?.author}';
+      Share.share(quoteText);
     }
   }
 }
