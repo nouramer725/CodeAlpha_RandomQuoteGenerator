@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:quotessss/quote_model.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:untitled2/quote_model.dart';
 import 'api.dart';
 
 class HomePage extends StatefulWidget {
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                         height: 10,
                       ),
                       Text(
-                        " ${quote?.tags ?? ""} ",
+                        " ${quote?.quote?.tags ?? ""} ",
                         style: const TextStyle(
                           fontSize: 20.6,
                           color: Colors.white60,
@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          " ${quote?.content ?? ".."}",
+                          " ${quote?.quote?.body ?? ".."}",
                           style: const TextStyle(
                             fontSize: 23,
                             fontFamily: 'roboto',
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                         alignment: AlignmentDirectional.bottomEnd,
                         children: [
                           Text(
-                            "Author : ${quote?.author ?? ""} ",
+                            "Author : ${quote?.quote?.author ?? ""} ",
                             style: const TextStyle(
                               fontSize: 17,
                               color: Colors.white60,
@@ -211,7 +211,7 @@ class _HomePageState extends State<HomePage> {
   // Function to share the quote
   void _shareQuote() {
     if (quote != null) {
-      final quoteText = '"${quote?.content}" - ${quote?.author}';
+      final quoteText = '"${quote?.quote?.body}" - ${quote?.quote?.author}';
       Share.share(quoteText);
     }
   }
